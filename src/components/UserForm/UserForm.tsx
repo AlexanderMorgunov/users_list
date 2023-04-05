@@ -1,5 +1,7 @@
 import { FC } from "react";
 import { useForm, Resolver } from "react-hook-form";
+import { IworkBordersArr } from "../../models/IworkBorders";
+import { workBordersArr } from "../../resources/data";
 
 type FormValues = {
   username: string;
@@ -16,6 +18,10 @@ const UserForm: FC = () => {
   } = useForm<FormValues>({ mode: "onBlur" });
 
   const onSubmit = handleSubmit((data) => console.log(data));
+
+  // const workBordersSelect = workBordersArr.map((el) => {
+  //   <option value={el.name}>{el.name}</option>;
+  // });
 
   return (
     <form onSubmit={onSubmit}>
