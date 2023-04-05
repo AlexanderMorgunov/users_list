@@ -1,4 +1,6 @@
-const UsersListPage = () => {
+import { FC } from "react";
+
+const UsersListPage: FC = () => {
   return <div>UsersListPage</div>;
 };
 
