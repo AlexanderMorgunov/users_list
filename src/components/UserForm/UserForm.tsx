@@ -8,49 +8,6 @@ type FormValues = {
   password: string;
 };
 
-// const resolver: Resolver<FormValues> = async (values) => {
-//   return {
-//     values: values.firstName ? values : {},
-//     errors: !values.firstName
-//       ? {
-//           firstName: {
-//             type: "required",
-//             message: "Имя обязательно для заполнения",
-//             minLength: {
-//               value: 2,
-//               message: "Минимально 2 символа",
-//             },
-//           },
-//         }
-//       : {},
-//   };
-// };
-
-// values: values.password ? values : {},
-// errors: !values.firstName
-//   ? {
-//       firstName: {
-//         type: "required",
-//         message: "Имя обязательно для заполнения",
-//         minLength: {
-//           value: 2,
-//           message: "Минимально 2 символа",
-//         },
-//       },
-//     }
-//   : {},
-// };
-// };
-
-// password: {
-//   type: "required",
-//   message: "Установите пароль",
-//   minLength: {
-//     value: 4,
-//     message: "Минимально 4 символа",
-//   },
-// },
-
 const UserForm: FC = () => {
   const {
     register,
@@ -99,20 +56,8 @@ const UserForm: FC = () => {
       {errors?.firstName && <p>{errors.firstName.message}</p>}
 
       <input {...register("lastName")} placeholder="Фамилия" />
-      {/* {errors?.lastName && <p>{errors.lastName.message}</p>} */}
 
-      <select
-        name="roles "
-        id="roles "
-        // {...register("roles", {
-        //   required: "Поле обязательно для заполнения",
-        //   minLength: {
-        //     value: 2,
-        //     message: "Минимально 2 символа",
-        //   },
-        // })}
-        defaultValue={"ANT"}
-      >
+      <select name="roles " id="roles " defaultValue={"ANT"}>
         <option value="ANT">ANT</option>
         <option value="ANT_MANAGER">ANT_MANAGER</option>
         <option value="ANT_OFFICER">ANT_OFFICER</option>
