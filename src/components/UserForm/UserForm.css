@@ -1,0 +1,18 @@
+form {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  padding: 50px;
+  border: 1px solid #001529;
+  border-radius: 10px;
+}
+
+input,
+.ant-select {
+  margin: 10px 0;
+}
+.form_errorMessage {
+  color: red;
+  font-size: 10px;
+  margin-top: -10px;
+}
