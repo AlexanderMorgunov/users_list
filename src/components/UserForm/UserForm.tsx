@@ -7,6 +7,7 @@ import type { SelectProps } from "antd";
 import { nanoid } from "nanoid";
 import { CheckCircleTwoTone } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
+import { IUser } from "../../models/IUser";
 import "./UserForm.css";
 
 const options: SelectProps["options"] = [];
@@ -53,7 +54,7 @@ const UserForm: FC = () => {
   } = useForm<FormValues>({ mode: "onBlur" });
 
   const onSubmit = handleSubmit((data) => {
-    const user = { ...data, arrRole, arrWorkBorders, id: generateId() };
+    const user: IUser = { ...data, arrRole, arrWorkBorders, id: generateId() };
     console.log(user);
     reset();
     setArrRole(["ANT"]);
@@ -79,14 +80,14 @@ const UserForm: FC = () => {
   return (
     <>
       <Modal
-        title="Спасибо за обращение!"
+        title="Спасибо!"
         open={isSend}
         onOk={handleOk}
         onCancel={handleCancel}
         style={{ textAlign: "center" }}
       >
         <CheckCircleTwoTone style={{ fontSize: "50px" }} />
-        <p>Данные отправлены</p>
+        <p>Пользователь добавлен</p>
         <NavLink to="/">На главную</NavLink>
       </Modal>
 
