@@ -9,10 +9,10 @@ form {
 
 input,
 .ant-select {
-  margin: 10px 0;
+  margin: 12px 0;
 }
 .form_errorMessage {
   color: red;
-  font-size: 10px;
+  font-size: 11px;
   margin-top: -10px;
 }
