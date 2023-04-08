@@ -1,0 +1,8 @@
+.ant-list-item-meta {
+  cursor: pointer;
+}
+
+.ant-list-item-meta:hover {
+  border: 1px solid black;
+  border-radius: 5px;
+}

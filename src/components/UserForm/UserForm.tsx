@@ -14,6 +14,8 @@ import {
   userCreated,
 } from "../../pages/UsersListPage/UsersListSlice";
 import "./UserForm.css";
+import { useFirebase } from "../../hooks/firebase.hook";
+import { useLocation } from "react-router-dom";
 
 const options: SelectProps["options"] = [];
 
@@ -37,6 +39,18 @@ type FormValues = {
 };
 
 const UserForm: FC = () => {
+  const location = useLocation();
+
+  // if (location?.state) {
+  //   console.log(location.state);
+  // }
+
+  const userValues: IUser | null = location.state || null;
+
+  console.log(userValues);
+
+  const { writeUserData } = useFirebase();
+
   const [isSend, setIssend] = useState<boolean>(false);
   const [arrRole, setArrRole] = useState(["ANT"]);
   const [arrWorkBorders, setArrWorkBorders] = useState([
@@ -61,12 +75,16 @@ const UserForm: FC = () => {
   } = useForm<FormValues>({ mode: "onBlur" });
 
   const onSubmit = handleSubmit((data) => {
-    const user: IUser = { ...data, arrRole, arrWorkBorders, id: generateId() };
+    let user: IUser;
+    userValues
+      ? (user = { ...data, arrRole, arrWorkBorders, id: userValues.id })
+      : (user = user = { ...data, arrRole, arrWorkBorders, id: generateId() });
     console.log(user);
     reset();
     setArrRole(["ANT"]);
     setArrWorkBorders([workBordersArr[0].name]);
     setIssend(true);
+    writeUserData(user);
     dispatch(userCreated(user));
   });
 
@@ -98,97 +116,111 @@ const UserForm: FC = () => {
         <p>Пользователь добавлен</p>
         <NavLink to="/">На главную</NavLink>
       </Modal>
+      <div className="UserForm-container">
+        <form onSubmit={onSubmit}>
+          <input
+            type="text"
+            {...register("username", {
+              required: "Поле обязательно для заполнения",
+              minLength: {
+                value: 3,
+                message: "Минимально 3 символов",
+              },
+            })}
+            defaultValue={userValues?.username}
+            placeholder="Имя пользователя"
+          />
+          {errors?.username && (
+            <span className="form_errorMessage">{errors.username.message}</span>
+          )}
 
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          {...register("username", {
-            required: "Поле обязательно для заполнения",
-            minLength: {
-              value: 3,
-              message: "Минимально 3 символов",
-            },
-          })}
-          placeholder="Имя пользователя"
-        />
-        {errors?.username && (
-          <span className="form_errorMessage">{errors.username.message}</span>
-        )}
+          <input
+            type="text"
+            {...register("password", {
+              required: "Установите пароль",
+              minLength: {
+                value: 4,
+                message: "Минимально 4 символа",
+              },
+            })}
+            placeholder="Пароль"
+            defaultValue={userValues?.password}
+          />
+          {errors?.password && (
+            <span className="form_errorMessage">{errors.password.message}</span>
+          )}
 
-        <input
-          type="text"
-          {...register("password", {
-            required: "Установите пароль",
-            minLength: {
-              value: 4,
-              message: "Минимально 4 символа",
-            },
-          })}
-          placeholder="Пароль"
-        />
-        {errors?.password && (
-          <span className="form_errorMessage">{errors.password.message}</span>
-        )}
+          <input
+            {...register("firstName", {
+              required: "Поле обязательно для заполнения",
+              minLength: {
+                value: 2,
+                message: "Минимально 2 символа",
+              },
+            })}
+            defaultValue={userValues?.firstName}
+            placeholder="Имя"
+          />
+          {errors?.firstName && (
+            <span className="form_errorMessage">
+              {errors.firstName.message}
+            </span>
+          )}
 
-        <input
-          {...register("firstName", {
-            required: "Поле обязательно для заполнения",
-            minLength: {
-              value: 2,
-              message: "Минимально 2 символа",
-            },
-          })}
-          placeholder="Имя"
-        />
-        {errors?.firstName && (
-          <span className="form_errorMessage">{errors.firstName.message}</span>
-        )}
+          <input
+            {...register("lastName")}
+            placeholder="Фамилия"
+            defaultValue={userValues?.lastName}
+          />
 
-        <input {...register("lastName")} placeholder="Фамилия" />
+          <Select
+            mode="multiple"
+            style={{ width: "100%" }}
+            placeholder="Please select"
+            // defaultValue={["ANT"]}
+            value={arrRole}
+            onChange={handleChangeRole}
+            options={
+              [
+                { label: "ANT", value: "ANT" },
+                { label: "ANT_MANAGER", value: "ANT_MANAGER" },
+                { label: "ANT_OFFICER", value: "ANT_OFFICER" },
+                { label: "DEVELOPER", value: "DEVELOPER" },
+              ] as SelectProps["options"]
+            }
+          />
+          {!arrRole.length ? (
+            <span className="form_errorMessage">Выберите значение</span>
+          ) : null}
 
-        <Select
-          mode="multiple"
-          style={{ width: "100%" }}
-          placeholder="Please select"
-          // defaultValue={["ANT"]}
-          value={arrRole}
-          onChange={handleChangeRole}
-          options={
-            [
-              { label: "ANT", value: "ANT" },
-              { label: "ANT_MANAGER", value: "ANT_MANAGER" },
-              { label: "ANT_OFFICER", value: "ANT_OFFICER" },
-              { label: "DEVELOPER", value: "DEVELOPER" },
-            ] as SelectProps["options"]
-          }
-        />
-        {!arrRole.length ? (
-          <span className="form_errorMessage">Выберите значение</span>
-        ) : null}
-
-        <Select
-          mode="multiple"
-          style={{ width: "100%" }}
-          placeholder="Please select"
-          // defaultValue={[workBordersArr[0].name]}
-          value={arrWorkBorders}
-          onChange={handleChangeWorkBorders}
-          options={workBordersArr.map((el) => {
-            return { label: el.name, value: el.name };
-          })}
-        />
-        {!arrWorkBorders.length ? (
-          <span className="form_errorMessage">Выберите значение</span>
-        ) : null}
-
-        <input
-          type="submit"
-          disabled={
-            arrRole.length === 0 || !isValid || arrWorkBorders.length === 0
-          }
-          className="btn btn-danger"
-        />
-      </form>
+          <Select
+            mode="multiple"
+            style={{ width: "100%" }}
+            placeholder="Please select"
+            // defaultValue={[workBordersArr[0].name]}
+            value={arrWorkBorders}
+            onChange={handleChangeWorkBorders}
+            options={workBordersArr.map((el) => {
+              return { label: el.name, value: el.name };
+            })}
+          />
+          {!arrWorkBorders.length ? (
+            <span className="form_errorMessage">Выберите значение</span>
+          ) : null}
+          <input
+            value={
+              userValues
+                ? "Обновить информацию о пользователе"
+                : "Создать пользователя"
+            }
+            type="submit"
+            disabled={
+              arrRole.length === 0 || !isValid || arrWorkBorders.length === 0
+            }
+            className="btn btn-danger"
+          />
+        </form>
+      </div>
     </>
   );
 };

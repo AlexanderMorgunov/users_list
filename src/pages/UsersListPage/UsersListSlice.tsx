@@ -5,7 +5,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { IUser } from "../../models/IUser";
-import { dataUsers } from "../../resources/data";
+// import { dataUsers } from "../../resources/data";
 import { useFirebase } from "../../hooks/firebase.hook";
 
 export type TypeLoadingStatus = "idle" | "loading" | "error";

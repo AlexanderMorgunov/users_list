@@ -16,3 +16,10 @@ input,
   font-size: 11px;
   margin-top: -10px;
 }
+
+.UserForm-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
