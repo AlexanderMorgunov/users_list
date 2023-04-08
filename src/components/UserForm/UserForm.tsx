@@ -8,6 +8,11 @@ import { nanoid } from "nanoid";
 import { CheckCircleTwoTone } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
 import { IUser } from "../../models/IUser";
+import { useDispatch } from "react-redux";
+import {
+  userDeleted,
+  userCreated,
+} from "../../pages/UsersListPage/UsersListSlice";
 import "./UserForm.css";
 
 const options: SelectProps["options"] = [];
@@ -38,6 +43,8 @@ const UserForm: FC = () => {
     workBordersArr[0].name,
   ]);
 
+  const dispatch = useDispatch();
+
   const handleChangeRole = (value: string[]) => {
     setArrRole(value);
   };
@@ -60,6 +67,7 @@ const UserForm: FC = () => {
     setArrRole(["ANT"]);
     setArrWorkBorders([workBordersArr[0].name]);
     setIssend(true);
+    dispatch(userCreated(user));
   });
 
   const handleOk = () => {

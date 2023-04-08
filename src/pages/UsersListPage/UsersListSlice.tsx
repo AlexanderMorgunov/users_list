@@ -16,15 +16,15 @@ export interface IinitialStateUsers {
 
 const initialState: IinitialStateUsers = {
   users: [
-    {
-      arrRole: [""],
-      arrWorkBorders: [""],
-      firstName: "",
-      id: "",
-      lastName: "",
-      password: "",
-      username: "",
-    },
+    // {
+    //   arrRole: [""],
+    //   arrWorkBorders: [""],
+    //   firstName: "",
+    //   id: "",
+    //   lastName: "",
+    //   password: "",
+    //   username: "",
+    // },
   ],
   usersLoadingStatus: "idle",
 };
@@ -63,3 +63,4 @@ const UsersListSlice = createSlice({
 export const { reducer, actions } = UsersListSlice;
 
 export default reducer;
+export const { userCreated, userDeleted } = actions;
