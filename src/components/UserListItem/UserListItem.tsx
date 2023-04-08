@@ -13,3 +13,5 @@ const UserListItem: FC<IUser> = ({
 }) => {
   return <div>{username}</div>;
 };
+
+export default UserListItem;
