@@ -51,7 +51,7 @@ const UserForm: FC = () => {
   const { writeUserData, deleteUserData } = useFirebase();
 
   const [isSend, setIssend] = useState<boolean>(false);
-  const [arrRole, setArrRole] = useState(["ANT"]);
+  const [arrRole, setArrRole] = useState(["Специалист"]);
   const [arrWorkBorders, setArrWorkBorders] = useState([
     workBordersArr[0].name,
   ]);
@@ -85,7 +85,7 @@ const UserForm: FC = () => {
       password: "",
       username: "",
     });
-    setArrRole(["ANT"]);
+    setArrRole(["Специалист"]);
     setArrWorkBorders([workBordersArr[0].name]);
     setIssend(true);
     writeUserData(user);
@@ -177,10 +177,10 @@ const UserForm: FC = () => {
             onChange={handleChangeRole}
             options={
               [
-                { label: "Специалист", value: "ANT" },
-                { label: "Менеджер", value: "ANT_MANAGER" },
-                { label: "Руководитель", value: "ANT_OFFICER" },
-                { label: "Разрабочик", value: "DEVELOPER" },
+                { label: "Специалист", value: "Специалист" },
+                { label: "Менеджер", value: "Менеджер" },
+                { label: "Руководитель", value: "Руководитель" },
+                { label: "Разрабочик", value: "Разрабочик" },
               ] as SelectProps["options"]
             }
           />
