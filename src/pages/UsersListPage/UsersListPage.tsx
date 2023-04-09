@@ -8,7 +8,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import { Typography, List } from "antd";
 import { AiOutlineUser, AiOutlineUserAdd } from "react-icons/ai";
 import { IconContext } from "react-icons";
-import { NavLink, NavigateOptions, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./UsersListPage.css";
 
 const { Title } = Typography;
@@ -64,10 +64,10 @@ const UsersListPage: FC = () => {
       <NavLink to="UserForm">
         {" "}
         <IconContext.Provider value={{ color: "blue", size: "3em" }}>
-          <AiOutlineUserAdd /> Добавить пользователя
+          <AiOutlineUserAdd /> Добавить нового пользователя
         </IconContext.Provider>
       </NavLink>
-
+      <h2>Список пользователей:</h2>
       <List
         itemLayout="horizontal"
         dataSource={Object.values(users)}

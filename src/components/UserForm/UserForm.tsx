@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from "react";
+import { FC, ReactNode, useState, useEffect } from "react";
 import { useForm, Resolver } from "react-hook-form";
 import { IworkBordersArr } from "../../models/IworkBorders";
 import { workBordersArr } from "../../resources/data";
@@ -6,7 +6,7 @@ import { Select, Modal } from "antd";
 import type { SelectProps } from "antd";
 import { nanoid } from "nanoid";
 import { CheckCircleTwoTone } from "@ant-design/icons";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { IUser } from "../../models/IUser";
 import { useDispatch } from "react-redux";
 import {
@@ -39,6 +39,7 @@ type FormValues = {
 };
 
 const UserForm: FC = () => {
+  const navigate = useNavigate();
   const location = useLocation();
 
   // if (location?.state) {
@@ -46,6 +47,12 @@ const UserForm: FC = () => {
   // }
 
   const userValues: IUser | null = location.state || null;
+
+  useEffect(() => {
+    if (userValues) {
+      setArrWorkBorders(userValues.arrWorkBorders);
+    }
+  }, []);
 
   console.log(userValues);
 
@@ -80,7 +87,12 @@ const UserForm: FC = () => {
       ? (user = { ...data, arrRole, arrWorkBorders, id: userValues.id })
       : (user = user = { ...data, arrRole, arrWorkBorders, id: generateId() });
     console.log(user);
-    reset();
+    reset({
+      firstName: "",
+      lastName: "",
+      password: "",
+      username: "",
+    });
     setArrRole(["ANT"]);
     setArrWorkBorders([workBordersArr[0].name]);
     setIssend(true);
@@ -92,9 +104,9 @@ const UserForm: FC = () => {
     setIssend(false);
   };
 
-  const handleCancel = () => {
-    setIssend(false);
-  };
+  // const handleCancel = () => {
+  //   setIssend(false);
+  // };
   // const workBordersSelect: ReactNode[] = workBordersArr.map((el) => {
   //   return (
   //     <option value={el.name} key={el.id}>
@@ -109,11 +121,18 @@ const UserForm: FC = () => {
         title="Спасибо!"
         open={isSend}
         onOk={handleOk}
-        onCancel={handleCancel}
+        closable={false}
+        // onCancel={handleCancel}
         style={{ textAlign: "center" }}
+        cancelButtonProps={{ style: { display: "none" } }}
+        afterClose={() => {
+          if (userValues) {
+            navigate("/");
+          }
+        }}
       >
         <CheckCircleTwoTone style={{ fontSize: "50px" }} />
-        <p>Пользователь добавлен</p>
+        <p>{userValues ? "Данные обновлены" : "Пользователь добавлен"}</p>
         <NavLink to="/">На главную</NavLink>
       </Modal>
       <div className="UserForm-container">
@@ -128,6 +147,7 @@ const UserForm: FC = () => {
               },
             })}
             defaultValue={userValues?.username}
+            // value={userValues?.username}
             placeholder="Имя пользователя"
           />
           {errors?.username && (
@@ -159,6 +179,7 @@ const UserForm: FC = () => {
               },
             })}
             defaultValue={userValues?.firstName}
+            // value={userValues?.firstName}
             placeholder="Имя"
           />
           {errors?.firstName && (
@@ -198,6 +219,8 @@ const UserForm: FC = () => {
             style={{ width: "100%" }}
             placeholder="Please select"
             // defaultValue={[workBordersArr[0].name]}
+            // value={arrWorkBorders}
+            // defaultValue={arrWorkBorders}
             value={arrWorkBorders}
             onChange={handleChangeWorkBorders}
             options={workBordersArr.map((el) => {
