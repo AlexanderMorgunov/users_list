@@ -1,10 +1,11 @@
 import { FC } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Layout as AntLayout, Menu, theme, Row } from "antd";
 import "./Layout.css";
 import { filterUpdate } from "./LayoutSearchSlice";
-import { AppDispatch } from "../../store";
+import { AppDispatch, RootState } from "../../store";
+import { IUser } from "../../models/IUser";
 
 const { Header, Footer } = AntLayout;
 
@@ -14,6 +15,7 @@ const Layout: FC = () => {
   const goHome = () => navigate("/", { replace: true });
 
   const dispatch = useDispatch<AppDispatch>();
+  const users: IUser[] = useSelector((state: RootState) => state.users.users);
 
   const {
     token: { colorBgContainer },
@@ -23,11 +25,14 @@ const Layout: FC = () => {
     <AntLayout>
       <Header>
         <div className="Layout-input-container">
-          <input
-            type="text"
-            className="Layout-search"
-            onChange={(e) => dispatch(filterUpdate(e.target.value))}
-          />
+          {users ? (
+            <input
+              type="text"
+              className="Layout-search"
+              onChange={(e) => dispatch(filterUpdate(e.target.value))}
+              placeholder="Поиск пользователя по фамилии"
+            />
+          ) : null}
         </div>
         <Row justify="end">
           <Menu theme="dark" mode="horizontal" selectable={false}>

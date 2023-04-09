@@ -14,6 +14,7 @@
 .Layout-search {
   height: 30px;
   width: 320px;
+  text-align: center;
 }
 .ant-layout-header {
   display: flex;

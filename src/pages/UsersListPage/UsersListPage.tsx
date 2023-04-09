@@ -25,8 +25,16 @@ const UsersListPage: FC = () => {
   const loadingStatus = useSelector(
     (state: RootState) => state.users.usersLoadingStatus
   );
-  console.log(users);
+  const filter = useSelector((state: RootState) => state.filter.filter);
 
+  let filteredUser: IUser[];
+  if (!filter) {
+    filteredUser = users;
+  } else {
+    filteredUser = Object.values(users).filter((el) =>
+      el.username.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+    );
+  }
   const redirectOnFormPage = (user: IUser) => {
     navigate("/UserForm", { state: user });
   };
@@ -47,9 +55,7 @@ const UsersListPage: FC = () => {
   } else if (loadingStatus === "error") {
     return <Title level={2}>Ошибка загрузки</Title>;
   }
-
-  // const renderUsersList = (users: IUser[]) => {
-  if (!users) {
+  if (!filteredUser) {
     return (
       <>
         <Title level={2}>Список пользователей пуст</Title>
@@ -63,22 +69,14 @@ const UsersListPage: FC = () => {
         <h2>Список пользователей:</h2>
         <List
           itemLayout="horizontal"
-          dataSource={Object.values(users)}
+          dataSource={Object.values(filteredUser)}
           renderItem={(item, index) => (
             <List.Item onClick={() => redirectOnFormPage(item)}>
               <List.Item.Meta
-                avatar={
-                  // <AiOutlineUser src={`https://joesch.moe/api/v1/random?key=${index}`} />
-                  <AiOutlineUser
-                  // src={`https://joesch.moe/api/v1/random?key=${index}`}
-                  />
-                }
-                // title={<a href="https://ant.design">{item.username}</a>}
+                avatar={<AiOutlineUser />}
                 title={item.username}
-                // description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                 description={`${item.firstName} ${item?.lastName}  
               ${item.arrRole.toString()}`}
-                // onClick={redirectOnFormPage(item.id)}
               />
             </List.Item>
           )}
@@ -86,10 +84,6 @@ const UsersListPage: FC = () => {
       </>
     );
   }
-
-  // const elements = renderUsersList(Object.values(users));
-
-  // return <>{elements}</>;
 };
 
 export default UsersListPage;
