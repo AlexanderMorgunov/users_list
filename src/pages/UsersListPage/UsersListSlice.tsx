@@ -1,11 +1,5 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  createEntityAdapter,
-  PayloadAction,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { IUser } from "../../models/IUser";
-// import { dataUsers } from "../../resources/data";
 import { useFirebase } from "../../hooks/firebase.hook";
 
 export type TypeLoadingStatus = "idle" | "loading" | "error";
@@ -16,17 +10,7 @@ export interface IinitialStateUsers {
 }
 
 const initialState: IinitialStateUsers = {
-  users: [
-    // {
-    //   arrRole: [""],
-    //   arrWorkBorders: [""],
-    //   firstName: "",
-    //   id: "",
-    //   lastName: "",
-    //   password: "",
-    //   username: "",
-    // },
-  ],
+  users: [],
   usersLoadingStatus: "idle",
 };
 

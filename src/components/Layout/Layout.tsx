@@ -30,7 +30,7 @@ const Layout: FC = () => {
               type="text"
               className="Layout-search"
               onChange={(e) => dispatch(filterUpdate(e.target.value))}
-              placeholder="Поиск пользователя по фамилии"
+              placeholder="Поиск по имени пользователя"
             />
           ) : null}
         </div>

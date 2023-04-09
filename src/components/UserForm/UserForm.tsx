@@ -1,18 +1,16 @@
-import { FC, ReactNode, useState, useEffect } from "react";
-import { useForm, Resolver } from "react-hook-form";
-import { IworkBordersArr } from "../../models/IworkBorders";
-import { workBordersArr } from "../../resources/data";
-import { Select, Modal } from "antd";
-import type { SelectProps } from "antd";
+import { FC, useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Select, Modal, SelectProps } from "antd";
 import { nanoid } from "nanoid";
 import { CheckCircleTwoTone } from "@ant-design/icons";
 import { NavLink, useNavigate, Link } from "react-router-dom";
-import { IUser } from "../../models/IUser";
 import { useDispatch } from "react-redux";
-import { userCreated } from "../../pages/UsersListPage/UsersListSlice";
-import "./UserForm.css";
-import { useFirebase } from "../../hooks/firebase.hook";
 import { useLocation } from "react-router-dom";
+import { userCreated } from "../../pages/UsersListPage/UsersListSlice";
+import { useFirebase } from "../../hooks/firebase.hook";
+import { IUser } from "../../models/IUser";
+import { workBordersArr } from "../../resources/data";
+import "./UserForm.css";
 
 const options: SelectProps["options"] = [];
 
@@ -38,10 +36,6 @@ type FormValues = {
 const UserForm: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // if (location?.state) {
-  //   console.log(location.state);
-  // }
 
   const userValues: IUser | null = location.state || null;
 
@@ -101,18 +95,6 @@ const UserForm: FC = () => {
   const handleOk = () => {
     setIssend(false);
   };
-
-  // const handleCancel = () => {
-  //   setIssend(false);
-  // };
-  // const workBordersSelect: ReactNode[] = workBordersArr.map((el) => {
-  //   return (
-  //     <option value={el.name} key={el.id}>
-  //       {el.name}
-  //     </option>
-  //   );
-  // });
-
   return (
     <>
       <Modal
@@ -120,7 +102,6 @@ const UserForm: FC = () => {
         open={isSend}
         onOk={handleOk}
         closable={false}
-        // onCancel={handleCancel}
         style={{ textAlign: "center" }}
         cancelButtonProps={{ style: { display: "none" } }}
         afterClose={() => {
@@ -145,7 +126,6 @@ const UserForm: FC = () => {
               },
             })}
             defaultValue={userValues?.username}
-            // value={userValues?.username}
             placeholder="Имя пользователя"
           />
           {errors?.username && (
@@ -177,7 +157,6 @@ const UserForm: FC = () => {
               },
             })}
             defaultValue={userValues?.firstName}
-            // value={userValues?.firstName}
             placeholder="Имя"
           />
           {errors?.firstName && (
@@ -185,40 +164,34 @@ const UserForm: FC = () => {
               {errors.firstName.message}
             </span>
           )}
-
           <input
             {...register("lastName")}
             placeholder="Фамилия"
             defaultValue={userValues?.lastName}
           />
-
           <Select
             mode="multiple"
             style={{ width: "100%" }}
-            placeholder="Please select"
-            // defaultValue={["ANT"]}
+            placeholder="Выберите должность"
             value={arrRole}
             onChange={handleChangeRole}
             options={
               [
-                { label: "ANT", value: "ANT" },
-                { label: "ANT_MANAGER", value: "ANT_MANAGER" },
-                { label: "ANT_OFFICER", value: "ANT_OFFICER" },
-                { label: "DEVELOPER", value: "DEVELOPER" },
+                { label: "Специалист", value: "ANT" },
+                { label: "Менеджер", value: "ANT_MANAGER" },
+                { label: "Руководитель", value: "ANT_OFFICER" },
+                { label: "Разрабочик", value: "DEVELOPER" },
               ] as SelectProps["options"]
             }
           />
           {!arrRole.length ? (
-            <span className="form_errorMessage">Выберите значение</span>
+            <span className="form_errorMessage">Выберите должность</span>
           ) : null}
 
           <Select
             mode="multiple"
             style={{ width: "100%" }}
-            placeholder="Please select"
-            // defaultValue={[workBordersArr[0].name]}
-            // value={arrWorkBorders}
-            // defaultValue={arrWorkBorders}
+            placeholder="Выберите город"
             value={arrWorkBorders}
             onChange={handleChangeWorkBorders}
             options={workBordersArr.map((el) => {
@@ -226,7 +199,7 @@ const UserForm: FC = () => {
             })}
           />
           {!arrWorkBorders.length ? (
-            <span className="form_errorMessage">Выберите значение</span>
+            <span className="form_errorMessage">Выберите город</span>
           ) : null}
           <input
             value={
@@ -240,15 +213,6 @@ const UserForm: FC = () => {
             }
             className="btn btn-danger"
           />
-          {/* <button
-            className="btn btn-danger"
-            type="button"
-            onClick={() => console.log("back")}
-          >
-            {" "}
-            <Link to={"/"}>Вернуться к списку</Link>
-          </button> */}
-
           {userValues ? (
             <>
               <Link to={"/"} className="">

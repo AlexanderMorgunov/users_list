@@ -1,5 +1,4 @@
 import { IworkBordersArr } from "../models/IworkBorders";
-import { IUser } from "../models/IUser";
 
 export const workBordersArr: IworkBordersArr[] = [
   { id: "1", name: "Белгатой" },
