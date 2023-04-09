@@ -6,7 +6,7 @@ import { Select, Modal } from "antd";
 import type { SelectProps } from "antd";
 import { nanoid } from "nanoid";
 import { CheckCircleTwoTone } from "@ant-design/icons";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import { IUser } from "../../models/IUser";
 import { useDispatch } from "react-redux";
 import {
@@ -51,6 +51,7 @@ const UserForm: FC = () => {
   useEffect(() => {
     if (userValues) {
       setArrWorkBorders(userValues.arrWorkBorders);
+      setArrRole(userValues.arrRole);
     }
   }, []);
 
@@ -242,6 +243,22 @@ const UserForm: FC = () => {
             }
             className="btn btn-danger"
           />
+          {/* <button
+            className="btn btn-danger"
+            type="button"
+            onClick={() => console.log("back")}
+          >
+            {" "}
+            <Link to={"/"}>Вернуться к списку</Link>
+          </button> */}
+
+          {userValues ? (
+            <Link to={"/"}>
+              <button className="btn btn-danger userForm-btn">
+                Вернуться к списку
+              </button>
+            </Link>
+          ) : null}
         </form>
       </div>
     </>

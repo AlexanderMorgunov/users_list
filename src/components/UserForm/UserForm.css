@@ -23,3 +23,6 @@ input,
   justify-content: center;
   padding: 50px;
 }
+.userForm-btn {
+  width: 100%;
+}
