@@ -9,10 +9,7 @@ import { CheckCircleTwoTone } from "@ant-design/icons";
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import { IUser } from "../../models/IUser";
 import { useDispatch } from "react-redux";
-import {
-  userDeleted,
-  userCreated,
-} from "../../pages/UsersListPage/UsersListSlice";
+import { userCreated } from "../../pages/UsersListPage/UsersListSlice";
 import "./UserForm.css";
 import { useFirebase } from "../../hooks/firebase.hook";
 import { useLocation } from "react-router-dom";
@@ -57,7 +54,7 @@ const UserForm: FC = () => {
 
   console.log(userValues);
 
-  const { writeUserData } = useFirebase();
+  const { writeUserData, deleteUserData } = useFirebase();
 
   const [isSend, setIssend] = useState<boolean>(false);
   const [arrRole, setArrRole] = useState(["ANT"]);
@@ -253,11 +250,23 @@ const UserForm: FC = () => {
           </button> */}
 
           {userValues ? (
-            <Link to={"/"}>
-              <button className="btn btn-danger userForm-btn">
-                Вернуться к списку
+            <>
+              <Link to={"/"} className="">
+                <button className="btn btn-danger userForm-btn">
+                  Вернуться к списку
+                </button>
+              </Link>
+              <button
+                className="btn btn-danger userForm-btn"
+                type="button"
+                onClick={() => {
+                  deleteUserData(userValues.id);
+                  setIssend(true);
+                }}
+              >
+                Удалить пользователя
               </button>
-            </Link>
+            </>
           ) : null}
         </form>
       </div>

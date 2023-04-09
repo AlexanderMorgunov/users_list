@@ -9,7 +9,7 @@ form {
 
 input,
 .ant-select {
-  margin: 12px 0;
+  margin: 10px 0;
 }
 .form_errorMessage {
   color: red;
@@ -25,4 +25,5 @@ input,
 }
 .userForm-btn {
   width: 100%;
+  margin-bottom: 10px;
 }

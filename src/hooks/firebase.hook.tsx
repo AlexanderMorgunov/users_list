@@ -54,7 +54,11 @@ export const useFirebase = () => {
     return data;
   };
 
+  const deleteUserData = (id: string) => {
+    set(ref(db, `Users/` + id), null);
+  };
+
   const getUsers = () => getData("/Users");
 
-  return { writeUserData, getUsers };
+  return { writeUserData, getUsers, deleteUserData };
 };

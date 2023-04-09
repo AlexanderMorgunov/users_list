@@ -1,7 +1,10 @@
 import { FC } from "react";
+import { useDispatch } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Layout as AntLayout, Menu, theme, Row } from "antd";
 import "./Layout.css";
+import { filterUpdate } from "./LayoutSearchSlice";
+import { AppDispatch } from "../../store";
 
 const { Header, Footer } = AntLayout;
 
@@ -10,6 +13,8 @@ const Layout: FC = () => {
   const goBack = () => navigate(-1);
   const goHome = () => navigate("/", { replace: true });
 
+  const dispatch = useDispatch<AppDispatch>();
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -17,6 +22,13 @@ const Layout: FC = () => {
   return (
     <AntLayout>
       <Header>
+        <div className="Layout-input-container">
+          <input
+            type="text"
+            className="Layout-search"
+            onChange={(e) => dispatch(filterUpdate(e.target.value))}
+          />
+        </div>
         <Row justify="end">
           <Menu theme="dark" mode="horizontal" selectable={false}>
             <Menu.Item onClick={goBack} key={1}>

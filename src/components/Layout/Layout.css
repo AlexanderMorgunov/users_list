@@ -5,3 +5,16 @@
   align-items: center;
   overflow: auto;
 }
+.Layout-input-container {
+  width: 70vw;
+  height: 44px;
+  display: flex;
+  justify-content: center;
+}
+.Layout-search {
+  height: 30px;
+  width: 320px;
+}
+.ant-layout-header {
+  display: flex;
+}
